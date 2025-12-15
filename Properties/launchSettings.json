@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "WindowsFocuser (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "WindowsFocuser (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
