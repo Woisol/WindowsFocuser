@@ -8,7 +8,64 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
-    </StackPanel>
+    <Grid Padding="20">
+        <StackPanel Spacing="20">
+            <TextBlock Text="Windows Focuser" Style="{StaticResource TitleTextBlockStyle}"/>
+
+            <ToggleSwitch x:Name="EnableSwitch" Header="Enable Focus Dimming" Toggled="EnableSwitch_Toggled"/>
+
+            <ToggleSwitch x:Name="StartOnBootSwitch" Header="Start on Boot" Toggled="StartOnBootSwitch_Toggled"/>
+
+            <StackPanel Spacing="10">
+                <TextBlock Text="Dimming Opacity"/>
+                <Slider x:Name="OpacitySlider" Minimum="0" Maximum="1" StepFrequency="0.05" ValueChanged="OpacitySlider_ValueChanged"/>
+            </StackPanel>
+
+            <StackPanel Spacing="10">
+                <TextBlock Text="Global Hotkey"/>
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBox x:Name="HotKeyBox" PlaceholderText="Press keys..." IsReadOnly="True" Width="200" KeyDown="HotKeyBox_KeyDown"/>
+                    <Button Content="Clear" Click="ClearHotKey_Click"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Spacing="10">
+                <TextBlock Text="Background Effect"/>
+                <ComboBox x:Name="EffectComboBox" SelectionChanged="EffectComboBox_SelectionChanged" HorizontalAlignment="Stretch">
+                    <ComboBoxItem Content="Dim (Solid Color)"/>
+                    <ComboBoxItem Content="Acrylic (Blur)"/>
+                    <ComboBoxItem Content="Mica (Windows 11)"/>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Spacing="10">
+                <TextBlock Text="Overlay Color"/>
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Border x:Name="ColorPreview" Width="30" Height="30" CornerRadius="4" BorderThickness="1" BorderBrush="Gray"/>
+                    <Button Content="Pick Color">
+                        <Button.Flyout>
+                            <Flyout>
+                                <ColorPicker x:Name="OverlayColorPicker" ColorChanged="OverlayColorPicker_ColorChanged" IsColorSliderVisible="True" IsColorChannelTextInputVisible="True" IsHexInputVisible="True" IsAlphaEnabled="True"/>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Spacing="10">
+                <TextBlock Text="Overlay Size (0 = Auto/Fullscreen)"/>
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <NumberBox x:Name="WidthBox" Header="Width" Value="0" SpinButtonPlacementMode="Inline" ValueChanged="SizeBox_ValueChanged" Width="200"/>
+                    <NumberBox x:Name="HeightBox" Header="Height" Value="0" SpinButtonPlacementMode="Inline" ValueChanged="SizeBox_ValueChanged" Width="200"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Spacing="5">
+                <TextBlock Text="Settings File Location:" FontWeight="Bold"/>
+                <TextBlock x:Name="SettingsPathText" TextWrapping="Wrap" IsTextSelectionEnabled="True"/>
+            </StackPanel>
+
+            <TextBlock Text="Note: Changes are saved automatically." FontStyle="Italic" Opacity="0.6"/>
+        </StackPanel>
+    </Grid>
 </Window>
