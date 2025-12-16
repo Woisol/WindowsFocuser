@@ -30,6 +30,7 @@ namespace WindowsFocuser
         {
             this.InitializeComponent();
             this.AppWindow.Resize(new Windows.Graphics.SizeInt32(500, 800));
+            this.AppWindow.Closing += AppWindow_Closing;
 
             // Load initial values
             var settings = App.Settings;
@@ -215,6 +216,12 @@ namespace WindowsFocuser
             // Debounce save? For now just save.
             App.Settings.Save();
             App.FocusService.UpdateSettings();
+        }
+
+        private void AppWindow_Closing(Microsoft.UI.Windowing.AppWindow sender, Microsoft.UI.Windowing.AppWindowClosingEventArgs args)
+        {
+            args.Cancel = true;
+            sender.Hide();
         }
     }
 }

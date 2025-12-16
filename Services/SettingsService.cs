@@ -15,7 +15,7 @@ namespace WindowsFocuser.Services
 
         public double DimOpacity { get; set; } = 0.5;
         public bool IsEnabled { get; set; } = true;
-        public uint HotKeyModifiers { get; set; } = 0x0002 | 0x0001; // Ctrl + Alt
+        public uint HotKeyModifiers { get; set; } = 0x0004 | 0x0001; // Shift + Alt
         public uint HotKeyKey { get; set; } = 0x7B; // F12
         public int OverlayWidth { get; set; } = 0; // 0 = Auto
         public int OverlayHeight { get; set; } = 0; // 0 = Auto
@@ -124,7 +124,7 @@ namespace WindowsFocuser.Services
             _settings["OverlayHeight"] = OverlayHeight.ToString();
             _settings["EffectType"] = EffectType;
             _settings["OverlayColor"] = OverlayColor;
-            _settings["StartOnBoot"] = StartOnBoot.ToString(); // Just for display in INI
+            _settings["StartOnBoot"] = StartOnBoot.ToString(); // Just for display in INI // TODO 😅
 
             var lines = _settings.Select(kvp => $"{kvp.Key}={kvp.Value}");
             File.WriteAllLines(_filePath, lines);

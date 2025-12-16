@@ -33,9 +33,9 @@
                 <TextBlock Text="Background Effect"/>
                 <ComboBox x:Name="EffectComboBox" SelectionChanged="EffectComboBox_SelectionChanged" HorizontalAlignment="Stretch">
                     <ComboBoxItem Content="Dim (Solid Color)"/>
-                    <!-- <ComboBoxItem Content="Acrylic (Blur)"/>
-                    <ComboBoxItem Content="Mica (Windows 11)"/>
-                    <ComboBoxItem Content="Blur (Legacy)"/> -->
+                    <ComboBoxItem Content="Acrylic (Blur)" IsEnabled="False"/>
+                    <ComboBoxItem Content="Mica (Windows 11)" IsEnabled="False"/>
+                    <ComboBoxItem Content="Blur (Legacy)" IsEnabled="False"/>
                 </ComboBox>
             </StackPanel>
 
@@ -56,8 +56,8 @@
             <StackPanel Spacing="10">
                 <TextBlock Text="Overlay Size (0 = Auto/Fullscreen)"/>
                 <StackPanel Orientation="Horizontal" Spacing="10">
-                    <NumberBox x:Name="WidthBox" Header="Width" Value="0" SpinButtonPlacementMode="Inline" ValueChanged="SizeBox_ValueChanged" Width="200"/>
-                    <NumberBox x:Name="HeightBox" Header="Height" Value="0" SpinButtonPlacementMode="Inline" ValueChanged="SizeBox_ValueChanged" Width="200"/>
+                    <NumberBox x:Name="WidthBox" Header="Width" Value="0" SpinButtonPlacementMode="Inline" ValueChanged="SizeBox_ValueChanged" Width="200" IsEnabled="False"/>
+                    <NumberBox x:Name="HeightBox" Header="Height" Value="0" SpinButtonPlacementMode="Inline" ValueChanged="SizeBox_ValueChanged" Width="200" IsEnabled="False"/>
                 </StackPanel>
             </StackPanel>
 

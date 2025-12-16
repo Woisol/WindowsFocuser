@@ -49,7 +49,10 @@ namespace WindowsFocuser
         {
             Settings = new SettingsService();
             FocusService = new FocusService(Settings);
-            FocusService.Start();
+            if (Settings.IsEnabled)
+            {
+                FocusService.Start();
+            }
 
             m_window = new MainWindow();
             m_window.Activate();
@@ -69,7 +72,7 @@ namespace WindowsFocuser
             });
             HotKeyService.Register();
 
-            TrayIconService = new TrayIconService(hWnd);
+            TrayIconService = new TrayIconService(hWnd, m_window);
             TrayIconService.Initialize();
 
             m_window.Closed += (s, e) => {

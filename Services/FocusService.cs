@@ -116,12 +116,12 @@ namespace WindowsFocuser.Services
                 // Custom size - center on primary screen
                 int screenW = PInvoke.GetSystemMetrics(PInvoke.SM_CXSCREEN);
                 int screenH = PInvoke.GetSystemMetrics(PInvoke.SM_CYSCREEN);
-                
+
                 w = _settingsService.OverlayWidth;
                 h = _settingsService.OverlayHeight;
-                x = (screenW - w) / 2;
-                y = (screenH - h) / 2;
-                
+                // x = (screenW - w) / 2;
+                // y = (screenH - h) / 2;
+
                 // Ensure we don't go off-screen too wildly if size is huge?
                 // Actually user said "setting too large Width/Height (e.g. 20000) makes window disappear".
                 // If w=20000, x = (1920-20000)/2 = -9040.
@@ -132,26 +132,30 @@ namespace WindowsFocuser.Services
                 // Or maybe just ensure the center is correct.
                 // If the window is too large, maybe we should just limit it to virtual screen size?
                 // But user might want it to span multiple monitors manually.
-                
+
                 // Let's try to limit the coordinates to 16-bit signed integer range (-32768 to 32767) just in case SetWindowPos has issues?
                 // But 20000 is within range.
-                
+
                 // Maybe the issue is that the window is created with 0 size initially or something?
                 // No, UpdateSize sets it.
-                
+
                 // Let's try to ensure at least the top-left corner is somewhat reasonable?
                 // No, if we want center, top-left must be far left.
-                
+
                 // Maybe the issue is Z-order when size is huge?
                 // Or maybe the user means "disappear" as in "not visible".
-                
+
                 // Let's try to clamp the max width/height to Virtual Screen * 2?
-                int maxW = PInvoke.GetSystemMetrics(PInvoke.SM_CXVIRTUALSCREEN) * 2;
-                int maxH = PInvoke.GetSystemMetrics(PInvoke.SM_CYVIRTUALSCREEN) * 2;
-                
+                // int maxW = PInvoke.GetSystemMetrics(PInvoke.SM_CXVIRTUALSCREEN) * 2;
+                // int maxH = PInvoke.GetSystemMetrics(PInvoke.SM_CYVIRTUALSCREEN) * 2;
+
+                // TODO not fix yet
+                int maxW = 10000;
+                int maxH = 10000;
+
                 if (w > maxW) w = maxW;
                 if (h > maxH) h = maxH;
-                
+
                 // Recalculate x,y
                 x = (screenW - w) / 2;
                 y = (screenH - h) / 2;
