@@ -43,6 +43,7 @@ namespace WindowsFocuser
 
             if (settings.EffectType == "Acrylic") EffectComboBox.SelectedIndex = 1;
             else if (settings.EffectType == "Mica") EffectComboBox.SelectedIndex = 2;
+            else if (settings.EffectType == "Blur") EffectComboBox.SelectedIndex = 3;
             else EffectComboBox.SelectedIndex = 0;
 
             UpdateHotKeyDisplay();
@@ -136,11 +137,14 @@ namespace WindowsFocuser
 
             if (EffectComboBox.SelectedIndex == 1) App.Settings.EffectType = "Acrylic";
             else if (EffectComboBox.SelectedIndex == 2) App.Settings.EffectType = "Mica";
+            else if (EffectComboBox.SelectedIndex == 3) App.Settings.EffectType = "Blur";
             else App.Settings.EffectType = "Dim";
+
 
             App.Settings.Save();
             App.FocusService.UpdateSettings();
         }
+
 
         private void SizeBox_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {

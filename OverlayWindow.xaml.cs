@@ -2,6 +2,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System;
+using System.Runtime.InteropServices;
 using WindowsFocuser.Helpers;
 
 namespace WindowsFocuser
@@ -38,6 +39,25 @@ namespace WindowsFocuser
             UpdateEffect();
         }
 
+        public void EnableBlur(IntPtr hwnd, bool enable)
+        {
+            var accent = new PInvoke.AccentPolicy();
+            accent.AccentState = enable ? PInvoke.AccentState.ACCENT_ENABLE_BLURBEHIND : PInvoke.AccentState.ACCENT_DISABLED;
+
+            var accentStructSize = Marshal.SizeOf(accent);
+            var accentPtr = Marshal.AllocHGlobal(accentStructSize);
+            Marshal.StructureToPtr(accent, accentPtr, false);
+
+            var data = new PInvoke.WindowCompositionAttributeData();
+            data.Attribute = PInvoke.WindowCompositionAttribute.WCA_ACCENT_POLICY;
+            data.SizeOfData = accentStructSize;
+            data.Data = accentPtr;
+
+            PInvoke.SetWindowCompositionAttribute(hwnd, ref data);
+
+            Marshal.FreeHGlobal(accentPtr);
+        }
+
         public void UpdateEffect()
         {
             var settings = App.Settings;
@@ -54,6 +74,9 @@ namespace WindowsFocuser
                 }
             }
             catch {}
+
+            // Reset SWCA Blur first
+            EnableBlur(hWnd, false);
 
             if (settings.EffectType == "Acrylic")
             {
@@ -81,6 +104,14 @@ namespace WindowsFocuser
                     RootGrid.Background = new SolidColorBrush(overlayColor);
                 }
             }
+            else if (settings.EffectType == "Blur")
+            {
+                this.SystemBackdrop = null;
+                EnableBlur(hWnd, true);
+                // For SWCA Blur, we need transparent background to see the blur.
+                // We use the user color as tint.
+                RootGrid.Background = new SolidColorBrush(overlayColor);
+            }
             else
             {
                 this.SystemBackdrop = null;
@@ -93,7 +124,20 @@ namespace WindowsFocuser
                 RootGrid.Background = new SolidColorBrush(opaqueColor);
             }
 
-            SetOpacity(settings.DimOpacity);
+            // If using Blur/Acrylic/Mica, we want the window itself to be opaque (255)
+            // so that the blur effect is fully visible, and we rely on RootGrid background alpha for tint.
+            // If we use SetLayeredWindowAttributes with low alpha, it fades the whole window including blur.
+
+            if (settings.EffectType == "Dim")
+            {
+                SetOpacity(settings.DimOpacity);
+            }
+            else
+            {
+                // For effects, disable window-level transparency (set to opaque)
+                // User controls tint transparency via Color Picker Alpha.
+                SetOpacity(1.0);
+            }
         }
 
         public void SetOpacity(double opacity)

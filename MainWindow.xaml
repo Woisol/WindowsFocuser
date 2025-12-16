@@ -33,8 +33,9 @@
                 <TextBlock Text="Background Effect"/>
                 <ComboBox x:Name="EffectComboBox" SelectionChanged="EffectComboBox_SelectionChanged" HorizontalAlignment="Stretch">
                     <ComboBoxItem Content="Dim (Solid Color)"/>
-                    <ComboBoxItem Content="Acrylic (Blur)"/>
+                    <!-- <ComboBoxItem Content="Acrylic (Blur)"/>
                     <ComboBoxItem Content="Mica (Windows 11)"/>
+                    <ComboBoxItem Content="Blur (Legacy)"/> -->
                 </ComboBox>
             </StackPanel>
 
