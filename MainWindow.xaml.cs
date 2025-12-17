@@ -31,6 +31,9 @@ namespace WindowsFocuser
             this.InitializeComponent();
             this.AppWindow.Resize(new Windows.Graphics.SizeInt32(500, 800));
             this.AppWindow.Closing += AppWindow_Closing;
+            this.AppWindow.Title = "Windows Focuser";
+            this.AppWindow.SetIcon("Assets\\icon.ico");
+
 
             // Load initial values
             var settings = App.Settings;

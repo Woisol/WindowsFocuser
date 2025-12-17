@@ -142,13 +142,14 @@ namespace WindowsFocuser.Services
           if (App.Settings.IsEnabled) App.FocusService.Start(); else App.FocusService.Stop();
           break;
         case IDM_ABOUT:
-          try { Process.Start(new ProcessStartInfo("https://github.com/") { UseShellExecute = true }); } catch { }
+          try { Process.Start(new ProcessStartInfo("https://github.com/Woisol/WindowsFocuser") { UseShellExecute = true }); } catch { }
           break;
         case IDM_EXIT:
           App.FocusService.Stop();
           App.HotKeyService.Dispose();
           Dispose();
           App.Current.Exit();
+          Environment.Exit(0);
           break;
       }
     }
