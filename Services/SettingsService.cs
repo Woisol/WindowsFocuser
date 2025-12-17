@@ -62,8 +62,29 @@ namespace WindowsFocuser.Services
 
         public SettingsService()
         {
-            _filePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, FileName);
+            var settingsFolder = ResolveSettingsFolder();
+            Directory.CreateDirectory(settingsFolder);
+            _filePath = Path.Combine(settingsFolder, FileName);
             Load();
+        }
+
+        private static string ResolveSettingsFolder()
+        {
+            // Unpackaged apps lack package identity; ApplicationData will throw. Fallback to LocalAppData.
+            try
+            {
+                var folder = ApplicationData.Current?.LocalFolder?.Path;
+                if (!string.IsNullOrEmpty(folder))
+                {
+                    return folder;
+                }
+            }
+            catch (Exception)
+            {
+                // Ignore and fallback
+            }
+
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "WindowsFocuser");
         }
 
         public void Load()
