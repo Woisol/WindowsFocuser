@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '*release*'
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: Publish All Platforms
+      shell: powershell
+      run: .\publish_all.ps1
+
+    - name: Zip Artifacts
+      shell: powershell
+      run: |
+        Compress-Archive -Path publish\win10-x86\* -DestinationPath WindowsFocuser-x86.zip
+        Compress-Archive -Path publish\win10-x64\* -DestinationPath WindowsFocuser-x64.zip
+        Compress-Archive -Path publish\win10-arm64\* -DestinationPath WindowsFocuser-arm64.zip
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: |
+          WindowsFocuser-x86.zip
+          WindowsFocuser-x64.zip
+          WindowsFocuser-arm64.zip
